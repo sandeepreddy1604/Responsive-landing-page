@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Responsive Landing Page</title>
+
+    <style>
+        /* =========================
+           BASIC RESET
+        ========================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #11111d;
+            color: white;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* =========================
+           NAVIGATION BAR
+        ========================= */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 75px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 7%;
+
+            background: rgba(17, 17, 29, 0.45);
+            backdrop-filter: blur(10px);
+
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+
+            z-index: 1000;
+
+            transition: 0.4s ease;
+        }
+
+        /* Navbar changes when scrolling */
+        .navbar.scrolled {
+            height: 65px;
+            background: #0b0b15;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.4);
+        }
+
+        /* Logo */
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .logo span {
+            color: #ff3d3d;
+        }
+
+        /* Navigation links */
+        nav {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-link {
+            padding: 10px 18px;
+            border-radius: 25px;
+
+            color: #ddd;
+            font-size: 14px;
+            font-weight: bold;
+
+            transition: 0.3s ease;
+        }
+
+        /* Hover effect */
+        .nav-link:hover {
+            background: #ff3d3d;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Active link */
+        .nav-link.active {
+            background: #ff3d3d;
+            color: white;
+        }
+
+        /* Mobile menu button */
+        .menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .menu-btn span {
+            display: block;
+            width: 28px;
+            height: 3px;
+            margin: 5px;
+            background: white;
+            border-radius: 5px;
+        }
+
+        /* =========================
+           COMMON SECTION
+        ========================= */
+        section {
+            min-height: 100vh;
+            padding: 120px 7%;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .small-title {
+            color: #ff4141;
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: clamp(55px, 8vw, 100px);
+            line-height: 0.95;
+            text-transform: uppercase;
+        }
+
+        h1 span,
+        h2 span {
+            color: #ff4141;
+        }
+
+        h2 {
+            font-size: clamp(40px, 5vw, 65px);
+            line-height: 1.05;
+            margin-bottom: 25px;
+        }
+
+        /* =========================
+           HOME SECTION
+        ========================= */
+        #home {
+            background:
+                radial-gradient(
+                    circle at 85% 25%,
+                    rgba(255, 50, 50, 0.2),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 10% 80%,
+                    rgba(40, 210, 190, 0.15),
+                    transparent 25%
+                ),
+                #11111d;
+        }
+
+        .hero-content {
+            max-width: 850px;
+            z-index: 2;
+        }
+
+        .hero-description {
+            max-width: 650px;
+            margin-top: 30px;
+            color: #b8b8c7;
+            font-size: 18px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 13px 25px;
+            border-radius: 30px;
+            border: 2px solid #ff4141;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn-primary {
+            background: #ff4141;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: white;
+            border-color: white;
+            color: #11111d;
+            transform: translateY(-3px);
+        }
+
+        .btn-secondary {
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            border-color: white;
+            color: #11111d;
+        }
+
+        /* Decorative circles */
+        .circle {
+            position: absolute;
+            border: 1px solid rgba(255,60,60,0.5);
+            border-radius: 50%;
+        }
+
+        .circle-one {
+            width: 180px;
+            height: 180px;
+            right: 8%;
+            top: 20%;
+        }
+
+        .circle-two {
+            width: 350px;
+            height: 350px;
+            right: -150px;
+            bottom: -130px;
+            border-color: rgba(50,220,200,0.35);
+        }
+
+        /* =========================
+           ABOUT SECTION
+        ========================= */
+        #about {
+            background: #f3f3f5;
+            color: #151522;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 70px;
+            align-items: center;
+        }
+
+        .about-text {
+            color: #5f5f6c;
+            font-size: 18px;
+        }
+
+        .about-text p {
+            margin-bottom: 20px;
+        }
+
+        /* =========================
+           SERVICES SECTION
+        ========================= */
+        #services {
+            background: #181827;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .card {
+            padding: 30px;
+            min-height: 250px;
+
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 18px;
+
+            background: rgba(255,255,255,0.04);
+
+            transition: 0.35s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: #ff4141;
+            background: rgba(255,65,65,0.08);
+        }
+
+        .number {
+            color: #ff4141;
+            font-size: 30px;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        .card h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: #aaaaba;
+        }
+
+        /* =========================
+           FEATURES SECTION
+        ========================= */
+        #features {
+            background: #f3f3f5;
+            color: #151522;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .feature {
+            display: flex;
+            gap: 18px;
+
+            padding: 25px;
+
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 15px;
+        }
+
+        .check {
+            min-width: 36px;
+            height: 36px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #ff4141;
+            color: white;
+
+            border-radius: 50%;
+            font-weight: bold;
+        }
+
+        .feature p {
+            color: #666;
+        }
+
+        /* =========================
+           CONTACT SECTION
+        ========================= */
+        #contact {
+            background:
+                radial-gradient(
+                    circle at 80% 30%,
+                    rgba(255,60,60,0.17),
+                    transparent 30%
+                ),
+                #11111d;
+        }
+
+        .contact {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .contact-description {
+            color: #aaaaba;
+            max-width: 550px;
+        }
+
+        form {
+            padding: 30px;
+
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 18px;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+
+            padding: 15px;
+            margin-bottom: 15px;
+
+            background: #1b1b2b;
+            border: 1px solid #3a3a4a;
+            border-radius: 10px;
+
+            color: white;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: #ff4141;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        .message {
+            margin-top: 10px;
+            color: #55e0c4;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+        footer {
+            padding: 25px;
+            text-align: center;
+            background: #09090f;
+            color: #888;
+        }
+
+        /* =========================
+           TABLET
+        ========================= */
+        @media (max-width: 900px) {
+
+            .navbar {
+                padding: 0 5%;
+            }
+
+            .menu-btn {
+                display: block;
+            }
+
+            nav {
+                display: none;
+
+                position: absolute;
+                top: 75px;
+                left: 5%;
+                right: 5%;
+
+                flex-direction: column;
+
+                padding: 15px;
+
+                background: #181827;
+                border-radius: 15px;
+            }
+
+            nav.show {
+                display: flex;
+            }
+
+            .nav-link {
+                text-align: center;
+            }
+
+            .two-column,
+            .contact {
+                grid-template-columns: 1fr;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+        @media (max-width: 600px) {
+
+            section {
+                padding: 105px 6% 70px;
+            }
+
+            h1 {
+                font-size: 55px;
+            }
+
+            .hero-description {
+                font-size: 16px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                text-align: center;
+            }
+
+            .circle-one {
+                width: 100px;
+                height: 100px;
+                right: -20px;
+            }
+
+            .circle-two {
+                width: 220px;
+                height: 220px;
+            }
+
+            form {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================
+         NAVIGATION
+    ========================== -->
+    <header class="navbar" id="navbar">
+
+        <a href="#home" class="logo">
+            NOVA<span>.</span>
+        </a>
+
+        <button class="menu-btn" id="menuBtn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <nav id="navMenu">
+
+            <a href="#home" class="nav-link active">
+                Home
+            </a>
+
+            <a href="#about" class="nav-link">
+                About
+            </a>
+
+            <a href="#services" class="nav-link">
+                Services
+            </a>
+
+            <a href="#features" class="nav-link">
+                Features
+            </a>
+
+            <a href="#contact" class="nav-link">
+                Contact
+            </a>
+
+        </nav>
+
+    </header>
+
+
+    <!-- =========================
+         HOME
+    ========================== -->
+    <section id="home">
+
+        <div class="container">
+
+            <div class="hero-content">
+
+                
+
+                <h1>
+                    Responsive<br>
+                    <span>Landing Page</span>
+                </h1>
+
+                <p class="hero-description">
+                    A modern responsive landing page with a fixed interactive
+                    navigation menu that changes style while scrolling and
+                    hovering over menu items.
+                </p>
+
+                <div class="buttons">
+
+                    <a href="#about" class="btn btn-primary">
+                        Explore More
+                    </a>
+
+                    <a href="#contact" class="btn btn-secondary">
+                        Contact Us
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="circle circle-one"></div>
+        <div class="circle circle-two"></div>
+
+    </section>
+
+
+    <!-- =========================
+         ABOUT
+    ========================== -->
+    <section id="about">
+
+        <div class="container two-column">
+
+            <div>
+
+                <p class="small-title">
+                    ABOUT THE PROJECT
+                </p>
+
+                <h2>
+                    Built for a smooth
+                    <span>web experience.</span>
+                </h2>
+
+            </div>
+
+            <div class="about-text">
+
+                <p>
+                    This landing page demonstrates a fixed navigation bar,
+                    hover effects, active section highlighting and smooth
+                    scrolling.
+                </p>
+
+                <p>
+                    The layout automatically adapts to desktop, tablet and
+                    mobile screen sizes using HTML, CSS and JavaScript.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         SERVICES
+    ========================== -->
+    <section id="services">
+
+        <div class="container">
+
+            <p class="small-title">
+                WHAT WE DO
+            </p>
+
+            <h2>
+                Simple. Modern.
+                <span>Responsive.</span>
+            </h2>
+
+            <div class="cards">
+
+                <div class="card">
+
+                    <div class="number">
+                        01
+                    </div>
+
+                    <h3>
+                        Responsive Design
+                    </h3>
+
+                    <p>
+                        Works smoothly across desktops, tablets and
+                        mobile devices.
+                    </p>
+
+                </div>
+
+
+                <div class="card">
+
+                    <div class="number">
+                        02
+                    </div>
+
+                    <h3>
+                        Interactive Menu
+                    </h3>
+
+                    <p>
+                        Navigation changes appearance on hover and
+                        while scrolling.
+                    </p>
+
+                </div>
+
+
+                <div class="card">
+
+                    <div class="number">
+                        03
+                    </div>
+
+                    <h3>
+                        Clean Interface
+                    </h3>
+
+                    <p>
+                        A simple modern interface with smooth
+                        transitions and effects.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         FEATURES
+    ========================== -->
+    <section id="features">
+
+        <div class="container">
+
+            <p class="small-title">
+                FEATURES
+            </p>
+
+            <h2>
+                Everything you need for a
+                <span>professional landing page.</span>
+            </h2>
+
+
+            <div class="features">
+
+                <div class="feature">
+
+                    <div class="check">
+                        ✓
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Fixed Navigation
+                        </h3>
+
+                        <p>
+                            The menu stays visible at the top while
+                            the page is scrolling.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <div class="check">
+                        ✓
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Scroll Detection
+                        </h3>
+
+                        <p>
+                            JavaScript detects scrolling and updates
+                            the navigation style.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <div class="check">
+                        ✓
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Hover Effects
+                        </h3>
+
+                        <p>
+                            Menu items smoothly change color and
+                            background on hover.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <div class="check">
+                        ✓
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Mobile Navigation
+                        </h3>
+
+                        <p>
+                            A hamburger menu provides a clean
+                            experience on small screens.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         CONTACT
+    ========================== -->
+    <section id="contact">
+
+        <div class="container contact">
+
+            <div>
+
+                <p class="small-title">
+                    GET IN TOUCH
+                </p>
+
+                <h2>
+                    Let's build something
+                    <span>great together.</span>
+                </h2>
+
+                <p class="contact-description">
+                    This is the final section of the landing page.
+                    Use the navigation menu to move between sections.
+                </p>
+
+            </div>
+
+
+            <form id="contactForm">
+
+                <input
+                    type="text"
+                    id="name"
+                    placeholder="Your Name"
+                    required
+                >
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Your Email"
+                    required
+                >
+
+                <textarea
+                    id="message"
+                    rows="5"
+                    placeholder="Your Message"
+                    required
+                ></textarea>
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >
+                    Send Message
+                </button>
+
+                <p
+                    class="message"
+                    id="formMessage"
+                ></p>
+
+            </form>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+    <footer>
+
+        <p>
+            © 2026 NOVA | Task 01 - Responsive Landing Page
+        </p>
+
+    </footer>
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
+    <script>
+
+        // Get elements
+        const navbar = document.getElementById("navbar");
+        const navLinks = document.querySelectorAll(".nav-link");
+        const sections = document.querySelectorAll("section");
+
+        const menuBtn = document.getElementById("menuBtn");
+        const navMenu = document.getElementById("navMenu");
+
+
+        // ==================================
+        // CHANGE NAVBAR WHEN SCROLLING
+        // ==================================
+
+        window.addEventListener("scroll", function () {
+
+            // Add scrolled class
+            if (window.scrollY > 50) {
+
+                navbar.classList.add("scrolled");
+
+            } else {
+
+                navbar.classList.remove("scrolled");
+
+            }
+
+
+            // Find current section
+            let current = "";
+
+            sections.forEach(function (section) {
+
+                const sectionTop =
+                    section.offsetTop - 150;
+
+                const sectionHeight =
+                    section.offsetHeight;
+
+                if (
+                    window.scrollY >= sectionTop &&
+                    window.scrollY < sectionTop + sectionHeight
+                ) {
+
+                    current =
+                        section.getAttribute("id");
+
+                }
+
+            });
+
+
+            // Change active menu item
+            navLinks.forEach(function (link) {
+
+                link.classList.remove("active");
+
+                if (
+                    link.getAttribute("href") ===
+                    "#" + current
+                ) {
+
+                    link.classList.add("active");
+
+                }
+
+            });
+
+        });
+
+
+        // ==================================
+        // MOBILE MENU
+        // ==================================
+
+        menuBtn.addEventListener("click", function () {
+
+            navMenu.classList.toggle("show");
+
+        });
+
+
+        // Close mobile menu after clicking
+        navLinks.forEach(function (link) {
+
+            link.addEventListener("click", function () {
+
+                navMenu.classList.remove("show");
+
+            });
+
+        });
+
+
+        // ==================================
+        // CONTACT FORM
+        // ==================================
+
+        const form =
+            document.getElementById("contactForm");
+
+        const formMessage =
+            document.getElementById("formMessage");
+
+
+        form.addEventListener("submit", function (event) {
+
+            event.preventDefault();
+
+            formMessage.textContent =
+                "Thank you! Your message has been submitted successfully.";
+
+            form.reset();
+
+        });
+
+    </script>
+
+</body>
+</html>
